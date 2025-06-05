@@ -1,47 +1,89 @@
 plugins {
     id "com.android.application"
-    // START: FlutterFire Configuration
+
+    // FlutterFire Configuration
     id 'com.google.gms.google-services'
-    // END: FlutterFire Configuration
+
     id "kotlin-android"
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
+
+    // Flutter Gradle Plugin (must be applied after Android and Kotlin)
     id "dev.flutter.flutter-gradle-plugin"
 }
 
+//android {
+//    namespace = "com.example.paw1"
+//    compileSdk = flutter.compileSdkVersion
+//    ndkVersion = "25.1.8937393"
+//
+//    compileOptions {
+//        sourceCompatibility JavaVersion.VERSION_17
+//        targetCompatibility JavaVersion.VERSION_17
+//    }
+//
+//    kotlinOptions {
+//        jvmTarget = "17"
+//    }
+//
+//    defaultConfig {
+//        applicationId = "com.example.paw1"
+//        minSdkVersion 23
+//        targetSdk = flutter.targetSdkVersion
+//        versionCode = flutter.versionCode
+//        versionName = flutter.versionName
+//    }
+//
+//    buildTypes {
+//        release {
+//            minifyEnabled true
+//            shrinkResources true
+//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//
+//            // Ensure proper signing config (update if you have a release key)
+//            signingConfig signingConfigs.debug
+//        }
+//    }
+//}
+
+
 android {
     namespace = "com.example.paw1"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 35
     ndkVersion = "25.1.8937393"
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
+        jvmTarget = "17"
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.example.paw1"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdkVersion 23
-        targetSdk = flutter.targetSdkVersion
+        targetSdk = 35
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.debug
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
     }
 }
 
+
 flutter {
     source = "../.."
+}
+
+dependencies {
+    implementation 'com.razorpay:checkout:1.6.41'  // Latest Razorpay SDK
+    implementation 'com.google.android.play:integrity:1.4.0' // Play Integrity API for Google Pay
+    implementation 'com.android.billingclient:billing:7.1.1'  // Required for Google Play Billing
 }

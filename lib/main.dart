@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:paw1/User/AppointmentScreen.dart';
 import 'package:paw1/apis/MapScreen.dart';
 import 'package:paw1/displayimage.dart';
 import 'package:paw1/home_screen.dart';
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
       ),
       home: GettingStartedScreen(), // Set GettingStartedScreen as the home screen
         // home: HomeScreen(),
-        // home: MapScreen(),
+        // home: AppointmentScreen(),
       
     );
   }

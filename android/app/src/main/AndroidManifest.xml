@@ -102,7 +102,7 @@
         <!-- Google API Key for maps or other services -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyD_zm1bds5_WGLcOTy8VgmzG-JGeu2LVYc" />
+            android:value="AIzaSyDtkCqvBF1H0PtpziHAQpUq4nW_stLH-J4" />
     </application>
 
     <!-- Required to query activities that can process text -->

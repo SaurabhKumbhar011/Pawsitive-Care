@@ -13,12 +13,9 @@
 //   Widget build(BuildContext context) {
 //     return Scaffold(
 //       appBar: AppBar(
-//         centerTitle: true,
-//         title: const Text(
-//           "Registered Pet",
-//           style: TextStyle(fontWeight: FontWeight.bold),
-//         ),
 //         backgroundColor: primaryColor,
+//         centerTitle: true,
+//         title: const Text('Registered Pets'),
 //       ),
 //       body: StreamBuilder<QuerySnapshot>(
 //         stream: FirebaseFirestore.instance
@@ -74,7 +71,13 @@
 //                         : const Icon(Icons.pets, size: 30, color: Colors.white),
 //                   ),
 //                   title: Text(pet['petName'], style: const TextStyle(fontWeight: FontWeight.bold)),
-//                   subtitle: Text('${pet['petType']}, ${pet['petAge']}'),
+//                   subtitle: Column(
+//                     crossAxisAlignment: CrossAxisAlignment.start,
+//                     children: [
+//                       Text('${pet['petType']}, ${pet['petAge']}'),
+//                       Text('Owner: ${pet['ownerEmail']}', style: TextStyle(color: Colors.grey[600])),
+//                     ],
+//                   ),
 //                   onTap: () {
 //                     Navigator.push(
 //                       context,
@@ -118,7 +121,8 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:paw1/constant.dart';
-import 'MedicalHistoryPage.dart'; // Import the medical history page
+import 'MedicalHistoryPage.dart';
+import 'vetbilling.dart'; // Import the billing and payment page
 
 class RegisteredPetsPage extends StatelessWidget {
   final String vetEmail;
@@ -138,7 +142,7 @@ class RegisteredPetsPage extends StatelessWidget {
             .collection('registeredPets')
             .doc(vetEmail)
             .collection('pets')
-            .snapshots(), // Use snapshots() for real-time updates
+            .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -157,7 +161,7 @@ class RegisteredPetsPage extends StatelessWidget {
               'petAge': data['petAge'] ?? 'Unknown',
               'petType': data['petType'] ?? 'Unknown',
               'ownerEmail': data['ownerEmail'] ?? 'Unknown',
-              'image': data['image'] ?? '', // Base64 encoded image string
+              'image': data['image'] ?? '',
             };
           }).toList();
 
@@ -208,20 +212,40 @@ class RegisteredPetsPage extends StatelessWidget {
                       ),
                     );
                   },
-                  trailing: IconButton(
-                    icon: const Icon(Icons.delete),
-                    onPressed: () async {
-                      await FirebaseFirestore.instance
-                          .collection('registeredPets')
-                          .doc(vetEmail)
-                          .collection('pets')
-                          .doc(pet['petName'])
-                          .delete();
+                  trailing: Wrap(
+                    spacing: 8,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.currency_rupee_outlined, color: Colors.blueAccent),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => VetBillingPage(
+                                petName: pet['petName'],
+                                vetEmail: vetEmail,
+                                ownerEmail: pet['ownerEmail'],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.delete, color: Colors.red),
+                        onPressed: () async {
+                          await FirebaseFirestore.instance
+                              .collection('registeredPets')
+                              .doc(vetEmail)
+                              .collection('pets')
+                              .doc(pet['petName'])
+                              .delete();
 
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Pet removed successfully.')),
-                      );
-                    },
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Pet removed successfully.')),
+                          );
+                        },
+                      ),
+                    ],
                   ),
                 ),
               );
